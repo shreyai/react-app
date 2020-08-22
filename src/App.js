@@ -23,21 +23,33 @@ function App() {
     })
   }
 
+  const style = {
+    backgroundCOlor: '#fff',
+    font:'inherit',
+    border:'1px solid blue',
+    padding: '10px',
+    cursor: 'pointer',
+    boxShadow: '4px 4px 16px #ccc'
+  }
+
   return (
     <div className="App">
       <h1>Hi, I'm a React Component</h1>
       <Professional 
         name={professionalState.professionals[0].name} 
         profession={professionalState.professionals[0].profession} 
-        click={switchNameHandler.bind(this, 'Ravi')} />
+        click={switchNameHandler.bind(this, 'Ravi')} 
+        buttonStyle={style} />
       <Professional 
         name={professionalState.professionals[1].name} 
         profession={professionalState.professionals[1].profession} 
-        click={switchNameHandler} />
+        click={switchNameHandler}
+        buttonStyle={style} />
       <Professional 
         name={professionalState.professionals[2].name} 
         profession={professionalState.professionals[2].profession} 
-        click={switchNameHandler} />
+        click={switchNameHandler}
+        buttonStyle={style} />
     </div>
   );
 }
