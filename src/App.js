@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Professional from './Professional/Professional';
+import Counter from './Counter/Counter';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
   return (
     <div className="App">
       <h1>Hi, I'm a React Component</h1>
+      <Counter buttonStyle={style} />
       <Professional 
         name={professionalState.professionals[0].name} 
         profession={professionalState.professionals[0].profession} 
