@@ -7,9 +7,9 @@ import Counter from './Counter/Counter';
 class App extends Component {
   state = {
     professionals : [
-      { name: 'Ravi Singh', profession: 'Software Engineer' },
-      { name: 'Mony Singh', profession: 'Mechanical Engineer' },
-      { name: 'Arijit Singh', profession: 'Musician' }
+      { id: 'abc1', name: 'Ravi Singh', profession: 'Software Engineer' },
+      { id: 'abc2', name: 'Mony Singh', profession: 'Mechanical Engineer' },
+      { id: 'abc3', name: 'Arijit Singh', profession: 'Musician' }
     ],
     showProfessionals: false
   }
@@ -24,14 +24,17 @@ class App extends Component {
     });
   }
 
-  nameChangeHandler = (event) => {
-    this.setState({
-      professionals : [
-        { name: 'Ravi Kumar Singh', profession: 'Software Engineer' },
-        { name: event.target.value, profession: 'Mechanical Engineer' },
-        { name: 'Arijit Singh', profession: 'Musician' }
-      ]
+  nameChangeHandler = (event, id) => {
+    const professionalIndex = this.state.professionals.findIndex(p => {
+      return p.id === id;
     });
+    const professional = {
+      ...this.state.professionals[professionalIndex]
+    };
+    professional.name = event.target.value;
+    const professionals = [...this.state.professionals]
+    professionals[professionalIndex] = professional;
+    this.setState({professionals: professionals});
   }
 
   toggleProfessionalHandler = () => {
@@ -49,29 +52,28 @@ class App extends Component {
       boxShadow: '4px 4px 16px #ccc'
     }
 
+    let professionals = null;
+
+    if (this.state.showProfessionals) {
+      professionals = (
+        <div>
+          {this.state.professionals.map(professional => {
+            return <Professional 
+              name={professional.name} 
+              professiona={professional.professional}
+              key={professional.id}
+              changed={(event) => this.nameChangeHandler(event, professional.id)} />
+          })}
+        </div>
+      )
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React Component</h1>
         {/* <Counter buttonStyle={style} /> */}
         <button style={style} onClick={this.toggleProfessionalHandler}>Toggle Professionals</button>
-        {
-          this.state.showProfessionals ?
-          <div>
-            <Professional 
-              name={this.state.professionals[0].name} 
-              profession={this.state.professionals[0].profession}
-              buttonStyle={style} />
-            <Professional 
-              name={this.state.professionals[1].name} 
-              profession={this.state.professionals[1].profession} 
-              click={this.switchNameHandler}
-              buttonStyle={style} />
-            <Professional 
-              name={this.state.professionals[2].name} 
-              profession={this.state.professionals[2].profession}
-              buttonStyle={style} />
-          </div> : null
-        }
+        { professionals } 
       </div>
     );
   }
@@ -85,8 +87,9 @@ class App extends Component {
 //       { name: 'Ravi Singh', profession: 'Software Engineer' },
 //       { name: 'Mony Singh', profession: 'Mechanical Engineer' },
 //       { name: 'Arijit Singh', profession: 'Musician' }
-//     ]
-//   })
+//     ],
+//     showProfessionals: false
+//   });
 
 //   const switchNameHandler = (newName) => {
 //     setProfessionalState({
@@ -98,6 +101,11 @@ class App extends Component {
 //     })
 //   }
 
+//   const toggleProfessionalHandler = () => {
+//     const doesShow = professionalState.showProfessionals;
+//     setProfessionalState({showProfessionals: !doesShow})
+//   }
+
 //   const style = {
 //     backgroundCOlor: '#fff',
 //     font:'inherit',
@@ -107,25 +115,32 @@ class App extends Component {
 //     boxShadow: '4px 4px 16px #ccc'
 //   }
 
+//   let professional = null;
+
+//   if(professionalState.showProfessionals) {
+//     professional = (
+//       <div>
+//         <Professional 
+//           name={professionalState.professionals[0].name} 
+//           profession={professionalState.professionals[0].profession}
+//           buttonStyle={style} />
+//         <Professional 
+//           name={professionalState.professionals[1].name} 
+//           profession={professionalState.professionals[1].profession}
+//           buttonStyle={style} />
+//         <Professional 
+//           name={professionalState.professionals[2].name} 
+//           profession={professionalState.professionals[2].profession}
+//           buttonStyle={style} />
+//       </div>
+//     )
+//   }
+
 //   return (
 //     <div className="App">
 //       <h1>Hi, I'm a React Component</h1>
-//       <Counter buttonStyle={style} />
-//       <Professional 
-//         name={professionalState.professionals[0].name} 
-//         profession={professionalState.professionals[0].profession} 
-//         click={switchNameHandler.bind(this, 'Ravi')} 
-//         buttonStyle={style} />
-//       <Professional 
-//         name={professionalState.professionals[1].name} 
-//         profession={professionalState.professionals[1].profession} 
-//         click={switchNameHandler}
-//         buttonStyle={style} />
-//       <Professional 
-//         name={professionalState.professionals[2].name} 
-//         profession={professionalState.professionals[2].profession} 
-//         click={switchNameHandler}
-//         buttonStyle={style} />
+//       <button onClick={toggleProfessionalHandler} style={style}>Toggle Professionals</button>
+//       { professional }
 //     </div>
 //   );
 // }
